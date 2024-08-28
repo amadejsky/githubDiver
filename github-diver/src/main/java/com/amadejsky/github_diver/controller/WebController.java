@@ -1,6 +1,6 @@
 package com.amadejsky.github_diver.controller;
 
-import com.amadejsky.github_diver.model.Response;
+import com.amadejsky.github_diver.model.dto.Response;
 import com.amadejsky.github_diver.service.GithubClientService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +21,7 @@ public class WebController {
 //        return githubClientService.getUserRepositories(username);
 //    }
     @GetMapping("/users/{username}")
-    public Mono<Response> getUserRepositories(@PathVariable String username){
+    public Response getUserRepositories(@PathVariable String username){
         return githubClientService.getUserRepositories(username);
     }
 }

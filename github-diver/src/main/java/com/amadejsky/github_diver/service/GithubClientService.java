@@ -2,6 +2,7 @@ package com.amadejsky.github_diver.service;
 
 import com.amadejsky.github_diver.model.dto.RepositoryResponse;
 import com.amadejsky.github_diver.model.dto.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,25 +19,6 @@ public class GithubClientService {
     public GithubClientService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-
-    //    public Mono<String> getUserRepositories(String username) {
-//        return this.webClient.get()
-//                .uri("/users/{username}/repos", username)
-//                .retrieve()
-//                .bodyToMono(String.class);
-//    }
-//public Mono<Response> getUserRepositories(String username) {
-//    return this.webClient.get()
-//            .uri("/users/{username}/repos", username)
-//            .retrieve()
-//            .bodyToMono(List.class)
-//            .map(data -> new Response(
-//                    username,
-//                    ((List<Map<String,Object>>) data).stream()
-//                            .map(repo -> (String) repo.get("name"))
-//                            .collect(Collectors.toList())
-//            ));
-//}
     public Response getUserRepositories(String username) {
         String url = String.format("https://api.github.com/users/%s/repos", username);
         List<Map<String, Object>> response = restTemplate.getForObject(url, List.class);
@@ -45,6 +27,12 @@ public class GithubClientService {
                 .collect(Collectors.toList());
 
         return new Response(username, repoNames);
+    }
+    public ResponseEntity<String> getAllData(String username) {
+        String url = String.format("https://api.github.com/users/%s/repos", username);
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        return response;
     }
 
 
